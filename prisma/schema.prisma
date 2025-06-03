@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:@localhost:3306/todos"
+  url      = "mysql://root:YkxDNslkjwsCwsTTlEGsGVvgCEwvHNhc@shuttle.proxy.rlwy.net:17631/railway"
 }
 
 model User{
