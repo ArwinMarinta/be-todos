@@ -1,17 +1,26 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const app = express();
-const db = require("../prisma/connection");
+const db = require("./prisma/connection");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
-  if (!authHeader) return res.sendStatus(403);
+  if (!authHeader) {
+    return res.status(401).json({ message: "Token is required" });
+  }
 
   const token = authHeader.split(" ")[1];
-  if (!token) return res.sendStatus(403);
 
   jwt.verify(token, "papb_bisdig", (err, user) => {
     if (err) return res.sendStatus(403);
@@ -75,9 +84,10 @@ app.post("/todos", authenticateToken, async (req, res) => {
   const { title, description, complated = false } = req.body;
   const userId = req.user.id;
 
-  console.log(userId);
-
   try {
+    if (!userId) {
+      return res.status(401).json({ message: "User not found or unauthorized" });
+    }
     const todo = await db.todos.create({
       data: {
         title,
@@ -149,6 +159,10 @@ app.delete("/todos/:id", authenticateToken, async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Failed to delete todo", error: error.message });
   }
+});
+
+app.get("/test", async (req, res) => {
+  return res.status(200).send("Connect Success");
 });
 
 app.listen(3000, () => {
