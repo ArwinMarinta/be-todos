@@ -10,8 +10,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
     "start": "node server.js",
+    "migrate": "prisma migrate deploy",
     "build": "prisma generate && node server.js",
-    "migrate": "prisma migrate deploy"
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
