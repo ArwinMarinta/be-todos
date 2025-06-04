@@ -2,12 +2,16 @@
   "name": "backend-todolist",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js",
-    "build": "npx prisma generate",
-    "start": "node app.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "build": "prisma generate && node server.js",
+    "migrate": "prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
