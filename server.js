@@ -68,8 +68,7 @@ app.post("/login", async (req, res) => {
       id: user.id,
       email: user.email,
     },
-    "papb_bisdig",
-    { expiresIn: "1h" }
+    "papb_bisdig"
   );
 
   res.json({
